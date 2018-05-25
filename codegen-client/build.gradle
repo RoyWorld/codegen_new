@@ -1,0 +1,23 @@
+task createJavaFile() {
+
+    file("src/main/java/com/codegen/client").mkdirs()
+
+    file("src/test/java/com/codegen/client").mkdirs()
+
+}
+
+task createJavaProjectImpl() {
+
+    sourceSets*.java.srcDirs*.each{ mkdir(it.path) }
+
+    sourceSets*.resources.srcDirs*.each{ mkdir(it.path) }
+
+    file('readme.md').createNewFile()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile project(':codegen-Dolphins')
+    compile project(':codegen-core')
+}

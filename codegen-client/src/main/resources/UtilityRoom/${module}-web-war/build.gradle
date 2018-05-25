@@ -1,0 +1,40 @@
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+//    compile "org.freemarker:freemarker:$freemarkerVersion"
+
+    compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    compile group: 'org.apache.velocity', name: 'velocity-tool', version: '2.0'
+
+    compile project(':${module}-service')
+    testCompile 'org.mortbay.jetty:jetty:6.1.26'
+    testCompile 'org.mortbay.jetty:jsp-2.1:6.1.14'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.1.0.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.1.0.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.1.0.RELEASE'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.4'
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.2.0'
+
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.1'
+
+    compile group: "commons-httpclient", name: "commons-httpclient", version: "3.1"
+
+    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+    compile group: 'com.google.code.maven-play-plugin.org.xhtmlrenderer', name: 'core-renderer', version: '2011.04.16'
+    // MQ队列
+//    compile "org.apache.activemq:activemq-all:$activemqVersion"
+    // 定时任务
+    compile 'org.quartz-scheduler:quartz:2.2.3'
+
+
+}

@@ -1,0 +1,34 @@
+<#assign className = table.classNameBo>
+    <#assign isCbd = false>
+
+        <#list table.columns as column>
+            <#if column=='creator'>
+                <#assign isCbd = true>
+            </#if>
+        </#list>
+<table class="confluenceTable">
+    <tbody>
+        <tr>
+            <th class="confluenceTh" colspan="5">${className} (extends <#if isCbd>CreateBaseDomain<#else>BaseDomain</#if>${table.name})</th>
+        </tr>
+        <tr>
+            <td class="highlight-grey confluenceTd" data-highlight-colour="grey"></td>
+            <td class="highlight-grey confluenceTd" data-highlight-colour="grey">字段</td>
+            <td class="highlight-grey confluenceTd" data-highlight-colour="grey">名称</td>
+            <td class="highlight-grey confluenceTd" data-highlight-colour="grey">类型</td>
+            <td class="highlight-grey confluenceTd" data-highlight-colour="grey">描述</td>
+        </tr>
+        <#list table.columns as column>
+        <tr>
+            <td class="confluenceTd"></td>
+            <td class="confluenceTd">${column.columnNameFirstLower}</td>
+            <td class="confluenceTd">${column.name}</td>
+            <td class="confluenceTd">${column.possibleShortJavaType}</td>
+            <td class="confluenceTd">${column.description}</td>
+        </tr>
+        </#list>
+    </tbody>
+    <tr></tr>
+</table>
+
+        <p/><p/>

@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+    <TITLE>Pet Store Sale!</TITLE>
+</HEAD>
+<BODY>
+<CENTER>
+    <B>$petList.size() Pets on Sale!</B>
+    <BR/>
+    We are proud to offer these fine pets
+    at these amazing prices.
+    <BR/>
+    This month only, choose from:
+    #set( $count = 1 )
+    <TABLE>
+        #foreach( $pet in $petList )
+        <TR>
+            <TD>$count)</TD>
+            <TD>$pet.name</TD>
+            <TD>$pet.price</TD>
+        </TR>
+        #set( $count = $count + 1 )
+        #end
+    </TABLE>
+    <BR/>
+    <I>Call Today!</I>
+</CENTER>
+
+</BODY>
+</HTML>

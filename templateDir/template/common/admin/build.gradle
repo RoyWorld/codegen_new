@@ -1,0 +1,14 @@
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile "org.freemarker:freemarker:$freemarkerVersion"
+
+    compile group: "cn.thinkjoy.common", name: "thinkjoy-mu-common", version: "$thinkjoyCommonVersion", changing: true
+
+    compile project(':${module}-service')
+
+    compile group:"cn.thinkjoy.ucenter",name:"ucenter-client",version:"$ucenterVersion", changing: true
+
+    testCompile 'org.eclipse.jetty.aggregate:jetty-webapp:8.1.9.v20130131'
+    testCompile 'org.eclipse.jetty:jetty-jsp:8.1.9.v20130131'
+}

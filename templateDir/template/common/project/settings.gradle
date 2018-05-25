@@ -1,0 +1,6 @@
+include '${module}-domain'
+include '${module}-api'
+include '${module}-service'
+include '${module}-web-war'
+include '${module}-admin-war'
+

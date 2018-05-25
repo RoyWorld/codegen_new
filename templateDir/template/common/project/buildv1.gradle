@@ -1,0 +1,186 @@
+<#include "/macro.include" />
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: "sonar-runner"
+
+apply from: 'dependencies.gradle'
+
+sourceCompatibility = 1.7
+
+//删除父目录下的test，避免test task执行失败
+delete "<@jspEl 'buildDir'/>/classes/test"
+
+
+buildscript {
+    repositories { maven { url 'http://repo.thinkjoy.cn/content/groups/public/' } }
+
+    dependencies {
+        classpath 'cn.thinkjoy.gradle.plugins:gradle-gitflow-plugin:1.0.1+'
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.4'
+        classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1+'
+    }
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
+//tasks.withType(Compile) {
+//    options.encoding = "UTF-8"
+//}
+
+
+project.configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, 'seconds'
+        resolutionRules.with {
+            eachModule({ moduleResolve ->
+                if (moduleResolve.request.version.endsWith('-SNAPSHOT')) {
+                    // This will cause the dependency to be refreshed once per build execution
+                    moduleResolve.cacheFor(0, SECONDS)
+                    // This would cause the dependency to be refreshed once per sub-project in a multi-project build. You wouldn't normally want that.
+                    // moduleResolve.refresh()
+                }
+            } as Action)
+            eachArtifact({ artifactResolve ->
+                if (artifactResolve.request.moduleVersionIdentifier.version.endsWith('-SNAPSHOT')) {
+                    artifactResolve.cacheFor(0, SECONDS)
+                }
+            } as Action)
+        }
+    }
+}
+
+/** 此闭包内的声明子类皆可使用 */
+allprojects {
+    group = '${basepackage}'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven-publish-auth'
+
+    repositories {
+        mavenLocal()
+        repositories { maven { url 'http://repo.thinkjoy.cn/content/groups/public/' } }
+        mavenCentral()
+    }
+
+    publishing {
+        task sourceJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+
+        publications {
+            mavenJava(MavenPublication) { from components.java }
+            mavenJava(MavenPublication) {
+                artifact(sourceJar) {
+                    classifier = "sources"
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'thinkjoy'
+                url "http://repo.thinkjoy.cn/content/repositories/<@jspEl 'project.version.endsWith(\'-SNAPSHOT\') ? \'snapshots\' : \'releases\''/>"
+            }
+        }
+    }
+}
+
+//拷贝根目录下的所有test到各自子module下
+task "copytest" << {
+    def fromPath
+    def toPath
+    subprojects.each {
+        fromPath = "<@jspEl 'project.buildDir'/>/classes/test/<@jspEl 'it.name'/>"
+        toPath = "<@jspEl 'it.buildDir'/>/classes/test"
+
+        copy {
+            from fromPath
+            into toPath
+        }
+
+    }
+}
+
+task createREADME() {
+    file("README.md").createNewFile()
+}
+
+subprojects {
+
+    task "createJavaProject" << {
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+
+        /** 可选生成子文件夹 */
+        file("src/main/filters").mkdirs()
+        file("src/main/assembly").mkdirs()
+        file("src/main/config").mkdirs()
+        file("src/main/scripts").mkdirs()
+
+        /** 填充文件，便于git提交 */
+        file("src/main/java/cn/thinkjoy").mkdirs()
+        file("src/main/java/cn/thinkjoy/package-info.java").createNewFile()
+        file("src/main/resources").mkdirs()
+        file("src/main/resources/spring.xml").createNewFile()
+
+        file("src/test/java/cn/thinkjoy").mkdirs()
+        file("src/test/java/cn/thinkjoy/package-info.java").createNewFile()
+        file("src/test/resources/spring.xml").createNewFile()
+    }
+
+    /** 有时候会报错，但需要执行 */
+//    task createREADME(){
+//        file("README.md").createNewFile()
+//    }
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+
+        all*.exclude group: 'org.springframework', module: 'spring'
+        all*.exclude group: 'asm', module: 'asm'
+        all*.exclude group: 'log4j', module: 'log4j'
+        all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    dependencies {
+        compile group: "cn.thinkjoy.common", name: "thinkjoy-domain-common", version: "$thinkjoyCommonVersion", changing: true
+    }
+}
+
+configure(subprojects.findAll { it.name.contains('-service') }) {
+    task createServiceProject(dependsOn: 'createJavaProject') << {
+
+        /** 配置生成 */
+        file("src/main/resources/config").mkdirs()
+        file("src/main/resources/config/main-conf.properties").createNewFile()
+        file("src/main/resources/config/metadata.properties").createNewFile()
+    }
+
+}
+
+configure(subprojects.findAll { it.name.contains('war') }) {
+    apply plugin: 'war'
+    apply plugin: 'jetty'
+
+    task createWebProject(dependsOn: 'createJavaProject') << {
+        def webAppDir = file("$webAppDirName")
+        webAppDir.mkdirs()
+
+        file("src/main/resources/config").mkdirs()
+        file("src/main/resources/config/main-conf.properties").createNewFile()
+        file("src/main/resources/config/metadata.properties").createNewFile()
+    }
+
+}
+
+
+
+
+

@@ -1,0 +1,27 @@
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+//    testCompile "org.springframework:spring-test:$springVersion"
+
+//    compile (group: "cn.thinkjoy.common", name: "thinkjoy-mus-common", version: "$thinkjoyCommonVersion", changing: true)
+//    {
+//        exclude group:'com.easypoi'
+//        exclude group:'com.alibaba',module:'druid'
+//    }
+    //自动注册自己到cmc
+//    compile group: "cn.thinkjoy.cloudstack", name: "cs-clustermanager-client", version: "$thinkjoyCloudstackVersion", changing: true
+
+//    compile 'com.oracle:ojdbc6:11.2.0.1.0'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.30'
+
+
+    compile 'commons-collections:commons-collections:3.2.1'
+
+//    compile group: "cn.thinkjoy.cloudstack", name: "cs-cache", version: "$thinkjoyCloudstackVersion", changing: true
+
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile project(':${module}-api')
+    compile project(':${module}-common')
+
+}

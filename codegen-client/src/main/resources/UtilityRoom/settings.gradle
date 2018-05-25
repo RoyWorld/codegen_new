@@ -1,0 +1,11 @@
+
+
+include '${module}-common'
+
+include '${module}-domain'
+
+include '${module}-api'
+
+include '${module}-service'
+
+include '${module}-web-war'

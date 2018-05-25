@@ -1,0 +1,361 @@
+<#include "/macro.include"/>
+<#assign className = table.classNameBo>
+<#assign classNameFirstLower = table.classNameFirstLower>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<#assign idJavaType = "" >
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
+<#macro conditionMapperEl value>${r"#{condition."}${value}}</#macro>
+<#macro jspEl value>${r"${"}${value}}</#macro>
+<#macro namespace>${basepackage}.${persistence}</#macro>
+<#if table.pkCount!=0 >
+<#assign idJavaType = "1" >
+</#if>
+<mapper namespace="${mergePkg}.I${className}DAO">
+<!--
+insert
+update
+updateNull
+deleteById
+deleteByCondition
+deleteByProperty
+fetch
+findOne
+findList
+findAll
+queryPage
+like
+queryList
+queryOne
+count
+selectMaxId
+updateOrSave
+selectOne
+selectList
+-->
+
+<#assign isSKey = false>
+<#assign issubmeter = false>
+<#if table.submeterTable==true>
+<#assign issubmeter = true>
+</#if>
+
+<#list table.columns as column>
+<#if column=='id'>
+    <#if 12==column.sqlType>
+        <#assign isSKey = true>
+    </#if>
+</#if>
+ </#list>
+
+    <sql id="Base_Column_List">
+    <#list table.columns as _column>
+            "${ _column.sqlName?upper_case}" as "${_column.columnNameFirstLower}" <#if _column_has_next>,</#if>
+    </#list>
+    </sql>
+
+    <insert id="insert" parameterType="${className}">
+        <#if isSKey>
+            <selectKey keyProperty="id" resultType="String" order="BEFORE">
+                select sys_guid() from dual
+            </selectKey>
+        <#else>
+            <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE">
+                SELECT SEQ_<#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>.nextval AS Id FROM DUAL
+            </selectKey>
+        </#if>
+        INSERT INTO <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>(
+        <#list table.columns as column>
+                "${column.sqlName?upper_case}"<#if column_has_next>,</#if>
+        </#list>
+        ) VALUES (
+        <#list table.columns as column>
+        <#if 12==column.sqlType>
+            <@mapperEl column.columnNameFirstLower+",jdbcType=NVARCHAR" /><#if column_has_next>,</#if>
+        <#elseif 93==column.sqlType>
+            <@mapperEl column.columnNameFirstLower+",jdbcType=TIMESTAMP" /><#if column_has_next>,</#if>
+        <#elseif 3==column.sqlType>
+            <@mapperEl column.columnNameFirstLower+",jdbcType=BIGINT" /><#if column_has_next>,</#if>
+        <#else>
+            <@mapperEl column.columnNameFirstLower+","+column.sqlType /><#if column_has_next>,</#if>
+        </#if>
+
+
+        </#list>
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="${className}">
+        UPDATE <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="SET" suffixOverrides=",">
+        <#list table.notPkColumns as column>
+            <if test="${column.columnNameFirstLower}!=null">
+                "${column.sqlName?upper_case}" = <@mapperEl column.columnNameFirstLower/>,
+            </if>
+        </#list>
+        </trim>
+        WHERE
+        <#list table.compositeIdColumns as column>
+        <if test="${column.columnNameFirstLower}!=null">
+        "${column.sqlName?upper_case}" = <@mapperEl column.columnNameFirstLower/><#if column_has_next> AND </#if>
+        </if>
+        </#list>
+    </update>
+
+    <update id="updateMap">
+        UPDATE <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="SET" suffixOverrides=",">
+        <#list table.notPkColumns as column>
+            <if test="map.${column.columnNameFirstLower}!=null">
+                "${column.sqlName?upper_case}" = <@mapperEl 'map.'+column.columnNameFirstLower />,
+            </if>
+        </#list>
+        </trim>
+        WHERE
+        "ID" = <@mapperEl 'map.id'/>
+    </update>
+
+    <update id="updateByCondition">
+        UPDATE <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="SET" suffixOverrides=",">
+            <#list table.notPkColumns as column>
+            <if test="update.${column.columnNameFirstLower}!=null">
+                "${column.sqlName?upper_case}" = <@mapperEl 'update.'+column.columnNameFirstLower />,
+            </if>
+        </#list>
+        </trim>
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+        <#list table.columns as column>
+        <if test="condition.${column.columnNameFirstLower}!=null">
+            AND "${column.sqlName?upper_case}" = <@mapperEl 'condition.' + column.columnNameFirstLower/>
+        </if>
+        </#list>
+        </trim>
+    </update>
+
+    <insert id="insertMap" >
+        INSERT INTO <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if> (
+        <#list table.columns as column>
+            <#if "id"!=column >
+                    "${column.sqlName?upper_case}"<#if column_has_next>,</#if>
+        <#elseif !isSKey>
+        "${column.sqlName?upper_case}"<#if column_has_next>,</#if>
+        </#if>
+            </#list>
+            ) VALUES (
+    <#list table.columns as column>
+    <#if "id"!=column >
+    <@mapperEl 'map.'+column.columnNameFirstLower /><#if column_has_next>,</#if>
+    <#elseif  !isSKey>SEQ_<#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>.nextval <#if column_has_next>,</#if>
+            </#if>
+            </#list>
+            )
+    </insert>
+
+
+    <update id="updateNull" parameterType="${className}">
+        UPDATE <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="SET" suffixOverrides=",">
+            <#list table.notPkColumns as column>
+            "${column.sqlName?upper_case}" = <@mapperEl column.columnNameFirstLower/>,
+        </#list>
+        </trim>
+                WHERE
+        <#list table.compositeIdColumns as column>
+                "${column.sqlName?upper_case}" = <@mapperEl column.columnNameFirstLower/> <#if column_has_next> AND </#if>
+                </#list>
+    </update>
+
+    <#if idJavaType!="">
+        <!-- 按Id删除 -->
+        <delete id="deleteById" parameterType="${table.idColumn.javaType}">
+        DELETE FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.compositeIdColumns as column>
+            AND "${column.sqlName?upper_case}" = <@mapperEl 'id'/>
+        </#list>
+        </trim>
+        </delete>
+    </#if>
+    <delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.columns as column>
+            <if test="${column.columnNameFirstLower}!=null">
+                AND "${column.sqlName?upper_case}" = <@mapperEl column.columnNameFirstLower/>
+            </if>
+        </#list>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+    DELETE FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if> WHERE
+    <@jspEl 'property'/> = <@mapperEl 'value'/>
+    </delete>
+<#if idJavaType!="">
+    <select id="fetch" parameterType="${table.idColumn.javaType}" resultType="${className}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.compositeIdColumns as column>
+            AND "${column.sqlName?upper_case}" = <@mapperEl 'id'/>
+        </#list>
+        </trim>
+    </select>
+</#if>
+    <select id="findOne" parameterType="java.util.Map" resultType="${className}">
+    SELECT * FROM(
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if> WHERE
+    <@jspEl 'property'/> = <@mapperEl 'value'/>
+    <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+    </if>
+    ) a where rownum =1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="${className}">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if> WHERE
+    <@jspEl 'property'/> = <@mapperEl 'value'/>
+    <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+    </if>
+    </select>
+
+    <select id="findAll" resultType="${className}">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+    <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+    </if>
+    </select>
+
+    <select id="queryPage" resultType="${className}">
+        SELECT b.* from (
+        SELECT ROWNUM rn,a.* from (
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <where>
+
+            <if test="condition.whereSql != null">
+                and "ID" in (<@mapperEl 'condition.whereSql'/>)
+            </if>
+
+            <#list table.columns as column>
+                <if test="condition.${column.columnNameFirstLower}!=null">
+                    <@jspEl 'condition.groupOp'/>  <@jspEl 'condition.' + column.columnNameFirstLower+'.field'/>  <@jspEl 'condition.' + column.columnNameFirstLower+'.op'/>  <@mapperEl 'condition.' + column.columnNameFirstLower+'.data'/>
+                </if>
+            </#list>
+
+
+        </where>
+        <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+        </if>
+                )a <if test="offset != null">
+            where <@jspEl 'offset+rows'/> >=ROWNUM
+            </if>
+        )b
+        <if test="offset != null">
+        where b.rn><@jspEl 'offset'/>
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="${className}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.columns as column>
+            <if test="condition.${column.columnNameFirstLower}!=null">
+                AND "${column.sqlName?upper_case}" like '%' ||  <@mapperEl 'condition.' + column.columnNameFirstLower/>  ||  '%'
+            </if>
+        </#list>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+        </if>
+    </select>
+
+
+    <select id="queryList" parameterType="java.util.Map" resultType="${className}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.columns as column>
+            <if test="condition.${column.columnNameFirstLower}!=null">
+                AND "${column.sqlName?upper_case}" = <@conditionMapperEl column.columnNameFirstLower/>
+            </if>
+        </#list>
+        </trim>
+        <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+        </if>
+    </select>
+
+    <select id="queryOne" parameterType="java.util.Map" resultType="${className}">
+    SELECT * FROM (
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <#list table.columns as column>
+            <if test="condition.${column.columnNameFirstLower}!=null">
+                AND "${column.sqlName?upper_case}" = <@conditionMapperEl column.columnNameFirstLower/>
+            </if>
+            </#list>
+        </trim>
+
+        <if test="orderBy!=null">
+        ORDER BY <@jspEl 'orderBy'/> <@jspEl 'sortBy'/>
+        </if>
+    ) a where  rownum=1
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+    <#if table.pkCount!=0 >
+    SELECT count(${table.idColumn.sqlName?upper_case}) FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+    <#else>
+        SELECT count(*) FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+    </#if>
+    <where>
+        <#list table.columns as column>
+        <if test="${column.columnNameFirstLower}!=null">
+            <@jspEl 'groupOp'/> <@jspEl column.columnNameFirstLower+'.field'/> <@jspEl column.columnNameFirstLower+'.op'/>  <@mapperEl column.columnNameFirstLower+'.data'/>
+        </if>
+        </#list>
+    </where>
+    </select>
+<#if idJavaType!="">
+    <select id="selectMaxId" resultType="${table.idColumn.javaType}">
+        SELECT
+        MAX(ID)
+        FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if>
+    </select>
+</#if>
+<#if table.idColumn?exists>
+    <delete id="deleteByIds" parameterType="java.util.List">
+
+    DELETE FROM <#if issubmeter><@jspEl '${table.submeterTablePrefixName}'/>_${table.subSqlName}<#else>${table.sqlName}</#if> where ${table.idColumn.sqlName?upper_case} in
+
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        <#if isSKey>
+            '<@jspEl 'item'/>'
+        <#else>
+            <@jspEl 'item'/>
+        </#if>
+    </foreach>
+
+    </delete>
+</#if>
+</mapper>
+

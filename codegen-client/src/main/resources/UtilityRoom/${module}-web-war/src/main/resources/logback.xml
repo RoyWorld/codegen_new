@@ -1,0 +1,127 @@
+<!--
+  ~ Copyright (c) 2013-2014, thinkjoy Inc. All Rights Reserved.
+  ~
+  ~ Project Name: samples
+  ~ $$Id: logback.xml 14-7-27 下午6:18 $$
+  -->
+<!-- debug="true"会将log框架本身的调试信息打印出来   -->
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+    <!--
+    As of version 0.9.25, logback-classic ships with LevelChangePropagator, an implementation of LoggerContextListener
+    which propagates changes made to the level of any logback-classic logger onto the java.util.logging framework.
+    Such propagation eliminates the performance impact of disabled log statements. Instances of LogRecord will be sent
+    to logback (via SLF4J) only for enabled log statements. This makes it reasonable for real-world applications to use
+    the jul-to-slf4j bridge.
+    -->
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+
+    <appender name="DEBUG-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${r"${user.dir}"}/logs/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 仅输出 比INFO级别低的日志 -->
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+                <expression>return level &gt; DEBUG;</expression>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+
+    </appender>
+
+    <appender name="ERROR-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${r"${user.dir}"}/logs/error .%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/${r"${user.dir}"}/logs/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/${r"${user.dir}"}/logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %thread %X{invokeNo} %logger{40} %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="STDOUT-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d{yyyyMMdd-HH:mm:ss.SSSZ}|%level|%contextName|%thread|%-5level|%logger|%msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SQL-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${r"${user.dir}"}/logs/sql-debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 仅输出 比INFO级别低的日志 -->
+        <!--<filter class="ch.qos.logback.core.filter.EvaluatorFilter">-->
+        <!--<evaluator> &lt;!&ndash; defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator &ndash;&gt;-->
+        <!--<expression>return level &gt; DEBUG;</expression>-->
+        <!--</evaluator>-->
+        <!--<OnMismatch>NEUTRAL</OnMismatch>-->
+        <!--<OnMatch>DENY</OnMatch>-->
+        <!--</filter>-->
+
+    </appender>
+
+    <logger name="SPECLOGGER" level="WARN">
+        <appender-ref ref="STDOUT-APPENDER" additivity="false"/>
+    </logger>
+
+    <logger name="com.ibatis" level="DEBUG">
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+    <logger name="java.sql.PreparedStatement" level="DEBUG">
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+
+
+    <!-- 这里平时的level为WARN，跟踪问题时才设置为DEBUG -->
+    <logger name="${basepackage}" level="DEBUG">
+        <appender-ref ref="DEBUG-FILE-APPENDER"/>
+        <!--<appender-ref ref="WARN-FILE-APPENDER"/>-->
+    </logger>
+
+
+    <logger name="${basepackage}.controller" level="WARN">
+        <appender-ref ref="ERROR-FILE-APPENDER"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT-APPENDER"/>
+        <!--<appender-ref ref="ERROR-FILE-APPENDER"/>-->
+        <!--<appender-ref ref="DEBUG-FILE-APPENDER"/>-->
+    </root>
+</configuration>

@@ -1,0 +1,18 @@
+task createJavaFile() {
+
+    file("src/main/java/com/codegen/core").mkdirs()
+
+//    file('src/main/java/com/dolpins/package-info.java').createNewFile()
+
+
+    file("src/test/java/com/codegen/core").mkdirs()
+
+//    file('src/test/java/com/dolpins/package-info.java').createNewFile()
+}
+
+dependencies {
+//    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "com.google.guava:guava:17.0"
+
+    compile project(':codegen-Dolphins')
+}

@@ -1,0 +1,19 @@
+allprojects {
+
+    thinkjoyCommonVersion = "0.1.83-SNAPSHOT"
+    thinkjoyCloudstackVersion = "0.0.44-SNAPSHOT"
+
+    springVersion = "4.1.0.RELEASE"
+
+    mysqlConnectorVersion = "5.1.26"
+
+    dubboVersion = "2.5.3"
+    dubboZKClientVersion = "0.4"
+    druidVersion="1.0.11"
+
+    freemarkerVersion = "2.3.20"
+    activemqVersion = "5.7.0"
+
+    poiVersion  = "3.8"
+
+}

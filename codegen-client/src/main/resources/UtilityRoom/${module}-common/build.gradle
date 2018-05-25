@@ -1,0 +1,15 @@
+
+dependencies {
+    compile "org.springframework:spring-jms:$springVersion"
+
+    // https://mvnrepository.com/artifact/com.alibaba/druid
+    compile group: 'com.alibaba', name: 'druid', version: '1.0.11'
+
+//    compile "org.apache.activemq:activemq-all:$activemqVersion"
+    compile "org.apache.activemq:activemq-core:$activemqVersion"
+    compile "org.apache.activemq:activemq-pool:$activemqVersion"
+    compile "org.apache.activemq:activemq-spring:$activemqVersion"
+    compile 'org.mybatis:mybatis:3.2.2'
+    compile 'commons-lang:commons-lang:2.6'
+}
+

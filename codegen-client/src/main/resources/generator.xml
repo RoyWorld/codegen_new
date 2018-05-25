@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>
+        代码生成器配置文件:
+        1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+        2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
+    </comment>
+
+    <entry key="projectModule">codegen-impl</entry>
+
+    <entry key="isCreateProject">true</entry>
+
+    <entry key="module">exercise-base</entry>
+    <entry key="basepackage">cn.qtone.zyj.exercise</entry>
+    <entry key="persistence">dao</entry>
+
+    <!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
+    <entry key="namespace">pages</entry>
+
+    <entry key="projectDir">${user.dir}//run//${module}</entry>
+
+    <entry key="outRoot">${user.dir}//generator-output</entry>
+
+
+</properties>
