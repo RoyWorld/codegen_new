@@ -4,7 +4,7 @@ dependencies {
 //    compile "org.freemarker:freemarker:$freemarkerVersion"
 
     compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
-    compile group: 'org.apache.velocity', name: 'velocity-tool', version: '2.0'
+    compile group: 'org.apache.velocity', name: 'velocity-tools', version: '2.0'
 
     compile project(':${module}-service')
     testCompile 'org.mortbay.jetty:jetty:6.1.26'
