@@ -1,7 +1,4 @@
-allprojects {
-
-    thinkjoyCommonVersion = "0.1.83-SNAPSHOT"
-    thinkjoyCloudstackVersion = "0.0.44-SNAPSHOT"
+ext {
 
     springVersion = "4.1.0.RELEASE"
 
