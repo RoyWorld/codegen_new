@@ -19,9 +19,6 @@ buildscript {
     }
 }
 
-tasks.withType(Compile) {
-    options.encoding = "UTF-8"
-}
 
 /** 此闭包内的声明子类皆可使用 */
 allprojects {
