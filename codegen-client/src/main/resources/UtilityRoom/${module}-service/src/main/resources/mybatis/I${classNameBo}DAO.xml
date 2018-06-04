@@ -104,7 +104,7 @@
 		<trim prefix="WHERE" suffixOverrides="and">
 		<#list table.columns as column>
 			<#if "id" == column || "paperId" == column.columnNameFirstLower>
-			${column.sqlName} = <@mapperEl column.columnNameFirstLower/> and
+			${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
 			</#if>
 		</#list>
 		</trim>
@@ -142,17 +142,6 @@
             </trim>
         )
     </insert>
-
-
-    <update id="updateNull" parameterType="${className}">
-        UPDATE ${table.sqlName}
-        <trim prefix="SET" suffixOverrides=",">
-            <#list table.notPkColumns as column>
-            ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>,
-            </#list>
-        </trim>
-        <include refid="queryOptions"/>
-    </update>
 
 
     <delete id="deleteByCondition" parameterType="java.util.Map">

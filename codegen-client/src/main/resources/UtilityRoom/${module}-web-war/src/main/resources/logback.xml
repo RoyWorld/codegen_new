@@ -107,6 +107,30 @@
         <appender-ref ref="STDOUT-APPENDER"/>
     </logger>
 
+    <logger name="org.mortbay" level="ERROR">
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+
+    <logger name="org.springframework" level="ERROR">
+        <appender-ref ref="SQL-FILE-APPENDER"/>
+    </logger>
+
+    <logger name="org.apache.zookeeper" level="INFO">
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+
+    <logger name="com.alibaba.dubbo" level="INFO">
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+
+    <logger name="com.dangdang.ddframe.rdb.sharding" level="DEBUG">
+        <appender-ref ref="SQL-FILE-APPENDER"/>
+        <appender-ref ref="STDOUT-APPENDER"/>
+    </logger>
+
+    <logger name="${basepackage}.dao" level="DEBUG">
+        <appender-ref ref="SQL-FILE-APPENDER" />
+    </logger>
 
     <!-- 这里平时的level为WARN，跟踪问题时才设置为DEBUG -->
     <logger name="${basepackage}" level="DEBUG">
