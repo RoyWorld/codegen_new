@@ -25,8 +25,8 @@
 
     <!-- Mysql -->
     <entry key="table.pre"></entry>
-    <entry key="jdbc.databasename">utility_room</entry>
-    <entry key="jdbc.url">jdbc:mysql://localhost:3306/utility_room?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+    <entry key="jdbc.databasename">wxcrawler</entry>
+    <entry key="jdbc.url">jdbc:mysql://localhost:3306/wxcrawler?useUnicode=true&amp;characterEncoding=UTF-8</entry>
     <entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
     <entry key="jdbc.username">root</entry>
     <entry key="jdbc.password">root</entry>

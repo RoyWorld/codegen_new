@@ -11,8 +11,9 @@
 
     <entry key="isCreateProject">true</entry>
 
-    <entry key="module">exercise-base</entry>
-    <entry key="basepackage">cn.qtone.zyj.exercise</entry>
+    <entry key="package">WXCrawler</entry>
+    <entry key="module">wxcrawler</entry>
+    <entry key="basepackage">com.wxcrawler</entry>
     <entry key="persistence">dao</entry>
 
     <!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
