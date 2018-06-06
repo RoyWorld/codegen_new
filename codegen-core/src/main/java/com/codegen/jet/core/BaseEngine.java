@@ -1,6 +1,6 @@
-package com.codegen.core.jet;
+package com.codegen.jet.core;
 
-import com.codegen.core.jet.exception.EngineException;
+import com.codegen.jet.core.exception.EngineException;
 
 import java.util.Map;
 

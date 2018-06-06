@@ -1,8 +1,8 @@
-package com.codegen.core.jet;
+package com.codegen.jet.core;
 
-import com.codegen.core.jet.exception.FactoryException;
-import com.codegen.core.jet.annotion.TemplateField;
-import com.codegen.core.jet.exception.EngineException;
+import com.codegen.jet.core.exception.FactoryException;
+import com.codegen.jet.core.annotion.TemplateField;
+import com.codegen.jet.core.exception.EngineException;
 import com.codegen.jet.dolphins.tools.FileHelper;
 import com.google.common.io.Files;
 import org.slf4j.Logger;

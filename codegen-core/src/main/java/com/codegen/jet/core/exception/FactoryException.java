@@ -1,4 +1,4 @@
-package com.codegen.core.jet.exception;
+package com.codegen.jet.core.exception;
 
 /**
  * Created by RoyChan on 2017/12/11.

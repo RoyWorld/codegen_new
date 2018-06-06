@@ -1,7 +1,7 @@
 package com.codegen.jet.client.domain.htmlInfo;
 
-import com.codegen.core.jet.annotion.TemplateField;
-import com.codegen.core.jet.BaseDomain;
+import com.codegen.jet.core.annotion.TemplateField;
+import com.codegen.jet.core.BaseDomain;
 
 import java.util.List;
 

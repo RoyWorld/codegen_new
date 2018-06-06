@@ -1,11 +1,11 @@
 task createJavaFile() {
 
-    file("src/main/java/com/codegen/core").mkdirs()
+    file("src/main/java/com/codegen/jet/core").mkdirs()
 
 //    file('src/main/java/com/dolpins/package-info.java').createNewFile()
 
 
-    file("src/test/java/com/codegen/core").mkdirs()
+    file("src/test/java/com/codegen/jet/core").mkdirs()
 
 //    file('src/test/java/com/dolpins/package-info.java').createNewFile()
 }

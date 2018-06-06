@@ -1,8 +1,8 @@
 package com.codegen.jet.client.factory.Pet;
 
-import com.codegen.core.jet.BaseDomain;
-import com.codegen.core.jet.BaseEngine;
-import com.codegen.core.jet.BaseFactory;
+import com.codegen.jet.core.BaseDomain;
+import com.codegen.jet.core.BaseEngine;
+import com.codegen.jet.core.BaseFactory;
 
 import java.util.HashMap;
 

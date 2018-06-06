@@ -1,4 +1,4 @@
-package com.codegen.core.jet.annotion;
+package com.codegen.jet.core.annotion;
 
 import java.lang.annotation.*;
 

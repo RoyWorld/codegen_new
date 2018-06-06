@@ -1,6 +1,6 @@
 package com.codegen.jet.client.domain.htmlInfo;
 
-import com.codegen.core.jet.annotion.TemplateField;
+import com.codegen.jet.core.annotion.TemplateField;
 
 /**
  * Created by RoyChan on 2017/12/12.

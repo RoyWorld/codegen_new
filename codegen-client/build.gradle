@@ -1,8 +1,8 @@
 task createJavaFile() {
 
-    file("src/main/java/com/codegen/client").mkdirs()
+    file("src/main/java/com/codegen/jet/client").mkdirs()
 
-    file("src/test/java/com/codegen/client").mkdirs()
+    file("src/test/java/com/codegen/jet/client").mkdirs()
 
 }
 

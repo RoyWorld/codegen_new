@@ -1,6 +1,6 @@
 package com.codegen.jet.client.domain.htmlInfo;
 
-import com.codegen.core.jet.BaseDomain;
+import com.codegen.jet.core.BaseDomain;
 
 /**
  * Created by RoyChan on 2018/5/25.

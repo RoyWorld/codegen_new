@@ -1,7 +1,7 @@
 package com.codegen.jet.client.engine;
 
-import com.codegen.core.jet.BaseEngine;
-import com.codegen.core.jet.exception.EngineException;
+import com.codegen.jet.core.BaseEngine;
+import com.codegen.jet.core.exception.EngineException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

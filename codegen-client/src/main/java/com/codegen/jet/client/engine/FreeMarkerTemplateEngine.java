@@ -1,7 +1,7 @@
 package com.codegen.jet.client.engine;
 
-import com.codegen.core.jet.BaseEngine;
-import com.codegen.core.jet.exception.EngineException;
+import com.codegen.jet.core.BaseEngine;
+import com.codegen.jet.core.exception.EngineException;
 import com.codegen.jet.dolphins.tools.FileHelper;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.*;

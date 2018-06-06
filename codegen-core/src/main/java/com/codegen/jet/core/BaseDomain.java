@@ -1,4 +1,4 @@
-package com.codegen.core.jet;
+package com.codegen.jet.core;
 
 /**
  * Created by RoyChan on 2017/12/6.

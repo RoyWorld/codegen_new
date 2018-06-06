@@ -1,9 +1,9 @@
 package com.codegen.jet.client.factory.mybatis;
 
-import com.codegen.core.jet.BaseFactory;
+import com.codegen.jet.core.BaseFactory;
 import com.codegen.jet.dolphins.util.ReadProperties;
-import com.codegen.core.jet.BaseEngine;
-import com.codegen.core.jet.BaseDomain;
+import com.codegen.jet.core.BaseEngine;
+import com.codegen.jet.core.BaseDomain;
 
 import java.util.Date;
 import java.util.HashMap;

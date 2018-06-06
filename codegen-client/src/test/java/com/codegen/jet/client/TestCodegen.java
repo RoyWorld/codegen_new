@@ -7,7 +7,7 @@ import com.codegen.jet.dolphins.TableFactory;
 import com.codegen.jet.client.engine.FreeMarkerTemplateEngine;
 import com.codegen.jet.client.engine.VelocityTemplateEngine;
 import com.codegen.jet.dolphins.domains.Table;
-import com.codegen.core.jet.exception.EngineException;
+import com.codegen.jet.core.exception.EngineException;
 import com.codegen.jet.client.factory.htmlInfo.HtmlGeneratorFactory;
 import com.codegen.jet.client.factory.mybatis.MybatisGeneratorFactory;
 import com.codegen.jet.dolphins.util.ReadProperties;

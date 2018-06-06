@@ -1,4 +1,4 @@
-package com.codegen.core.jet.tool;
+package com.codegen.jet.core.tool;
 
 /**
  * find value quickly in an given array

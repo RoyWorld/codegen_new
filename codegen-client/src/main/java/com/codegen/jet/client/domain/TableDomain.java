@@ -5,7 +5,7 @@ import com.codegen.jet.dolphins.domains.Column;
 import com.codegen.jet.dolphins.domains.ForeignKeys;
 import com.codegen.jet.dolphins.domains.Table;
 import com.codegen.jet.dolphins.tools.StringHelper;
-import com.codegen.core.jet.BaseDomain;
+import com.codegen.jet.core.BaseDomain;
 
 import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
