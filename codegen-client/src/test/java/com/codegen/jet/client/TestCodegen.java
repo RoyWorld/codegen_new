@@ -3,6 +3,7 @@ package com.codegen.jet.client;
 import com.codegen.jet.client.domain.htmlInfo.*;
 import com.codegen.jet.client.domain.TableDomain;
 import com.codegen.jet.client.factory.Pet.PetFactory;
+import com.codegen.jet.core.tool.XMLParseHelper;
 import com.codegen.jet.dolphins.TableFactory;
 import com.codegen.jet.client.engine.FreeMarkerTemplateEngine;
 import com.codegen.jet.client.engine.VelocityTemplateEngine;
@@ -15,8 +16,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,6 +34,8 @@ public class TestCodegen {
     Shop shop;
 
     List<Table> tables;
+
+    Set<String> unresolvedTables = new HashSet<>();
 
     @Before
     public void setDomain(){
@@ -73,6 +78,15 @@ public class TestCodegen {
     public void setProperties(){
         ReadProperties.addPropertiesFile("generator.xml");
         ReadProperties.reload();
+    }
+
+    @Before
+    public void setUnresolvedTables() throws IOException {
+        XMLParseHelper xmlParseHelper = new XMLParseHelper("unresolveTable.xml");
+        NodeList nodeList = xmlParseHelper.getNodeList("table");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            unresolvedTables.add(nodeList.item(i).getTextContent());
+        }
     }
 
     @Test
@@ -159,8 +173,10 @@ public class TestCodegen {
             MybatisGeneratorFactory mybatisGeneratorFactory = new MybatisGeneratorFactory(new FreeMarkerTemplateEngine("UtilityRoom"));
 
             for (Table table : tables){
-                mybatisGeneratorFactory.getDataFromDomain(new TableDomain(table));
-                mybatisGeneratorFactory.generateMultiTemplates("", file.getAbsolutePath());
+                if (!unresolvedTables.contains(table.getSqlName())){
+                    mybatisGeneratorFactory.getDataFromDomain(new TableDomain(table));
+                    mybatisGeneratorFactory.generateMultiTemplates("", file.getAbsolutePath());
+                }
             }
 
 
