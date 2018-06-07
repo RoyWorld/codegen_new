@@ -16,6 +16,8 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-context-support', version: '4.1.0.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.1.0.RELEASE'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.2'
     // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     compile group: 'org.aspectj', name: 'aspectjrt', version: '1.7.4'
     // https://mvnrepository.com/artifact/org.mybatis/mybatis-spring

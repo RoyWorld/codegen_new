@@ -28,7 +28,7 @@
 		<#list table.columns as column>
            <if test="condition.${column.sqlName}!=null">
                <if test="condition.${column.sqlName}__!=null">
-                   AND ${table.sqlName}.${'$'}{condition.${column.sqlName}.field} ${'$'}{condition.${column.sqlName}.op} ${'#'}{condition.${column.columnNameFirstLower}.data}
+                   AND ${table.sqlName}.${'$'}{condition.${column.sqlName}.field} ${'$'}{condition.${column.sqlName}.op} ${'#'}{condition.${column.sqlName}.data}
                </if>
                <if test="condition.${column.sqlName}__==null"> AND ${table.sqlName}.${column.sqlName} = <@mapperEl 'condition.' + column.columnNameFirstLower/></if>
            </if>
