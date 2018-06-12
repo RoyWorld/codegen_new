@@ -1,4 +1,5 @@
 package ${basepackage}.domain;
+import java.io.Serializable;
 
 /**
  * 搜索操作
@@ -6,7 +7,7 @@ package ${basepackage}.domain;
  * @author xjli
  *
  */
-public class SearchField {
+public class SearchField implements Serializable {
     /* 搜索字段名称 */
     private String field;
 
