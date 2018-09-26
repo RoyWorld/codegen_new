@@ -72,11 +72,14 @@
   </sql>
 
     <insert id="insert" parameterType="${className}">
-        <#if isSKey>
-            <!--<selectKey keyProperty="id" resultType="String" order="BEFORE">-->
-                <!--select uuid()-->
-            <!--</selectKey>-->
-        </#if>
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        <#-- !--<#if isSKey>-->
+            <#--  !--<selectKey keyProperty="id" resultType="String" order="BEFORE">-->
+                <#-- !--select uuid()-->
+            <#-- !--</selectKey>-->
+        <#-- !--</#if>-->
         INSERT INTO ${table.sqlName} (
         <#list table.columns as column>
 				${column.sqlName}<#if column_has_next>,</#if>
