@@ -4,6 +4,8 @@ import com.codegen.jet.core.BaseFactory;
 import com.codegen.jet.core.BaseDomain;
 import com.codegen.jet.core.BaseEngine;
 
+import java.util.HashMap;
+
 
 /**
  * Created by RoyChan on 2017/12/11.
@@ -16,12 +18,13 @@ public class HtmlGeneratorFactory extends BaseFactory {
 
     @Override
     public void getDataFromDomain(BaseDomain... baseDomain) {
+        data = new HashMap(20);
         for (BaseDomain bd : baseDomain){
             data.putAll(resloverClass(bd));
         }
     }
 
-    private void getDataFromDomain(BaseDomain baseDomain) {
+    public void getDataFromDomain(BaseDomain baseDomain) {
         data = resloverClass(baseDomain);
     }
 

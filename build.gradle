@@ -5,8 +5,6 @@ buildscript{
         mavenCentral()
     }
     dependencies{
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.4'
-        classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1+'
     }
 }
 apply plugin: 'java'
