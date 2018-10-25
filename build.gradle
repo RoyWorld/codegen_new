@@ -21,7 +21,7 @@ configurations {
 /** 此闭包内的声明子类皆可使用 */
 allprojects {
     group = 'com.codegen.jet'
-    version = '0.0.2'
+    version = '1.0.1'
 
     apply plugin: 'java'
     apply plugin: 'idea'
@@ -46,7 +46,7 @@ subprojects{
         compile 'org.freemarker:freemarker:2.3.20'
 
         compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
-        compile group: 'org.apache.velocity', name: 'velocity-tool', version: '2.0'
+//        compile group: 'org.apache.velocity', name: 'velocity-tool', version: '2.0'
 
         compile 'org.slf4j:slf4j-api:1.7.21'
         compile 'ch.qos.logback:logback-classic:1.1.7'
